@@ -46,6 +46,22 @@ app.post('/usuarios', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+app.get('/', (req, res) => {
+    window.location.href = 'index.html';
+});
+app.get('/dashboard', async (req, res) => {
+    try {
+    const [stats] = await pool.execute('SELECT COUNT(*) AS total_productos FROM insumos');
+    const [price] = await pool.execute('SELECT SUM(precio) AS valor_inventario FROM insumos');
+    
+    res.json({
+        total_productos: stats[0].total_productos,
+        valor_inventario: price[0].valor_inventario
+    });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 
 app.listen(port, () => {
     console.log(`Servidor Express en http://localhost:${port}`);
