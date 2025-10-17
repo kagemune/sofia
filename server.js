@@ -53,15 +53,27 @@ app.get('/dashboard', async (req, res) => {
     try {
     const [stats] = await pool.execute('SELECT COUNT(*) AS total_productos FROM insumos');
     const [price] = await pool.execute('SELECT SUM(precio) AS valor_inventario FROM insumos');
+    const [category] = await pool.execute('SELECT categoria, COUNT(*) AS total_por_categoria FROM insumos GROUP BY categoria');
+
     
     res.json({
         total_productos: stats[0].total_productos,
-        valor_inventario: price[0].valor_inventario
+        valor_inventario: price[0].valor_inventario,
+        total_por_categoria: category
     });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
+app.get('/productos', async (req, res) => {
+    try {
+        const [rows] = await pool.execute('SELECT * FROM insumos');
+        res.json(rows);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }       
+});
+
 
 app.listen(port, () => {
     console.log(`Servidor Express en http://localhost:${port}`);
