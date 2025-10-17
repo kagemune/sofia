@@ -1,6 +1,9 @@
 const express = require('express');
 const mysql = require('mysql2/promise');
 const cors = require('cors');
+const path = require('path');
+
+
 
 const app = express();
 const port = 3000;
@@ -47,7 +50,7 @@ app.post('/usuarios', async (req, res) => {
     }
 });
 app.get('/', (req, res) => {
-    window.location.href = 'index.html';
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 app.get('/dashboard', async (req, res) => {
     try {
