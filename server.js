@@ -13,7 +13,7 @@ const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'tu_base_de_datos',
+    database: 'dazz',
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
